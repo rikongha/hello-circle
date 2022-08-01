@@ -33,7 +33,8 @@ jobs:
           command: "echo world"
 
   print-name:
-    docker: cimg/base:stable
+    docker: 
+      - image: cimg/base:stable
     steps:
       - checkout
       - run: echo "<< PIPELINE_ENV_USER_NAME >>"
