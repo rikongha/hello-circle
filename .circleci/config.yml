@@ -12,7 +12,7 @@ jobs:
         paths: 
           - output.txt
 
-   print_output_file:
+  print_output_file:
     docker: 
       - image: cimg/base:stable
     steps:
