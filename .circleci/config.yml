@@ -19,7 +19,7 @@ jobs:
           root: .
           paths: 
             - output.txt
-      - run: return 1
+      # - run: return 1 #simulates job fail
       - run:
           name: Notify job failed
           when: on_fail
