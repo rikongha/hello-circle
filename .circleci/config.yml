@@ -1,0 +1,47 @@
+version: 2.1
+
+commands:
+  print_pipeline_id:
+    description: "A simple command that outputs the circle ci workflow ID"
+    parameters:
+      id:
+        type: string
+    steps:
+      - run: echo << parameters.id >>
+
+jobs:
+  save_hello_world_output:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run: echo "hello world" > output.txt
+      - persist_to_workspace:
+          root: .
+          paths: 
+            - output.txt
+      - run: return 1
+      - run:
+          name: Notify job failed
+          when: on_fail
+          command: echo "$CIRCLE_JOB job failed!"
+
+  print_output_file:
+    docker: 
+      - image: cimg/base:stable
+    steps:
+      - print_pipeline_id:
+          id: << pipeline.id >>
+      - attach_workspace:
+          at: .
+      - run: cat output.txt
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  say-hello-workflow:
+    jobs:
+      - save_hello_world_output
+      - print_output_file:
+          requires:
+            - save_hello_world_output
+        
