@@ -3,8 +3,11 @@ version: 2.1
 commands:
   print_pipeline_id:
     description: "A simple command that outputs the circle ci workflow ID"
+    parameters:
+      id:
+        type: string
     steps:
-      - run: echo $CIRCLE_WORKFLOW_ID
+      - run: echo << parameters.id >>
 
 jobs:
   save_hello_world_output:
@@ -21,7 +24,8 @@ jobs:
     docker: 
       - image: cimg/base:stable
     steps:
-      - print_pipeline_id
+      - print_pipeline_id:
+          id: << pipeline.id >>
       - attach_workspace:
           at: .
       - run: cat output.txt
