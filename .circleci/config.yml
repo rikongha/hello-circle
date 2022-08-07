@@ -19,6 +19,7 @@ jobs:
           root: .
           paths: 
             - output.txt
+      - run: return 1
 
   print_output_file:
     docker: 
