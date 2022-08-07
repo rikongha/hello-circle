@@ -20,6 +20,10 @@ jobs:
           paths: 
             - output.txt
       - run: return 1
+      - run:
+          name: Notify job failed
+          when: on_fail
+          command: echo "$CIRCLE_JOB job failed!"
 
   print_output_file:
     docker: 
